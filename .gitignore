@@ -1,9 +1,10 @@
 node_modules/
 *.debug.js
+*.backup*.js
 config-backup-*.json
+config-live-*.json
 Pool-Dosing-Card.command
-STARTUP_PROMPT.md
-DEPLOY-GITHUB-PROMPT.md
+*-PROMPT.md
 .claude/
 tomtut-pool-dosing-card.v22.js
 tomtut-pool-dosing-card.v23.js
