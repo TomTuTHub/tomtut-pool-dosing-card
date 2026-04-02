@@ -1,0 +1,6 @@
+{
+  "name": "TomTuT Pool Dosing Card",
+  "render_readme": true,
+  "filename": "tomtut-pool-dosing-card.js",
+  "homeassistant": "2024.1.0"
+}
