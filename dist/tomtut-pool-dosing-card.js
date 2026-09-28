@@ -36,10 +36,10 @@ const ct=t=>(e,i)=>{void 0!==i?i.addInitializer(()=>{customElements.define(t,e)}
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */function ut(t){return dt({...t,state:!0,attribute:!1})}const _t={water_top:53,water_height:10,water_width:94,water_center:50,water_speed:100,pump_left_top:7,pump_right_top:7,pump_left_x:21,pump_right_x:15,pump_left_size:9,pump_right_size:9,pump_speed:100,value_bottom:4,value_ph_x:35,value_rx_x:30,value_scale:100,firmware_top:18,firmware_left:50,plug_top:12,plug_right:3},xt={type1:{water_top:51,water_height:11,water_width:47,water_center:49,water_speed:23,water_inactive:"gray",pump_left_size:5,pump_style:"fan",pump_left_x:28.5,pump_left_top:14,pump_right_size:5,pump_right_x:31,pump_right_top:14,pump_speed:20,firmware_top:11,firmware_box:false,firmware_color:"black",firmware_left:49,firmware_scale:88,plug_top:28,plug_right:15,value_box:false,value_labels:false,value_color:"black",value_scale:88,value_rx_x:44,value_ph_x:39,value_bottom:7},type2:{water_top:51,water_height:15,water_width:58,water_center:48,water_speed:23,water_inactive:"gray",pump_left_size:5,pump_style:"fan",pump_left_x:29.5,pump_left_top:13,pump_right_size:5,pump_right_x:54.5,pump_right_top:13,pump_speed:20,firmware_top:13,firmware_box:false,firmware_color:"black",firmware_left:59,firmware_scale:88,plug_top:28,plug_right:15,value_box:false,value_labels:false,value_color:"black",value_scale:88,value_rx_x:44,value_ph_x:39,value_bottom:7}},gt={type1:{light:"/api/tomtut_pool_dosing/static/dosier_v1.png",dark:"/api/tomtut_pool_dosing/static/dosier_v2.png"},type2:{light:"/api/tomtut_pool_dosing/static/dosier_v3.png",dark:"/api/tomtut_pool_dosing/static/dosier_v4.png"}},ft={arrow:'<path d="M20,6 A14,14 0 1,1 8,14" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/><polygon points="5,8 11,14 3,16" fill="currentColor"/>',fan:'<circle cx="20" cy="20" r="3" fill="currentColor"/><path d="M20,17 Q20,6 12,6 Q4,6 6,14 Q8,17 20,17 Z" fill="currentColor" opacity="0.85"/><path d="M23,20 Q34,20 34,12 Q34,4 26,6 Q23,8 23,20 Z" fill="currentColor" opacity="0.85"/><path d="M20,23 Q20,34 28,34 Q36,34 34,26 Q32,23 20,23 Z" fill="currentColor" opacity="0.85"/><path d="M17,20 Q6,20 6,28 Q6,36 14,34 Q17,32 17,20 Z" fill="currentColor" opacity="0.85"/>',dots:'<circle cx="20" cy="8" r="3.5" fill="currentColor"/><circle cx="31" cy="14" r="3.5" fill="currentColor"/><circle cx="31" cy="26" r="3.5" fill="currentColor"/><circle cx="20" cy="32" r="3.5" fill="currentColor"/><circle cx="9" cy="26" r="3.5" fill="currentColor"/><circle cx="9" cy="14" r="3.5" fill="currentColor"/><circle cx="20" cy="20" r="4" fill="currentColor"/>'};let $t=class extends at{setConfig(t){const c={...t};if(c.device_name&&!c.entity_prefix){c.entity_prefix="sensor."+c.device_name.toLowerCase().replace(/\s+/g,"_")}if(!c.entity_prefix)throw new Error("device_name or entity_prefix is required");this._config={model:"type1",image_variant:"dark",...c}}getCardSize(){return 6}_entity(t){return this.hass?.states[`${this._config.entity_prefix}${t}`]}_state(t){const s=this._entity(t)?.state;return s&&"unavailable"!==s&&"unknown"!==s?s:"—"}_binaryEntity(t){return this.hass?.states[`${this._config.entity_prefix.replace(/^sensor\./,"binary_sensor.")}${t}`]}_isOn(t){return"on"===this._binaryEntity(t)?.state}get _imagePath(){const t=this._config.model??"type1",e=this._config.image_variant??"dark";return gt[t]?.[e]??gt.type1.dark}get _flowActive(){const t=this._state("_flow").toLowerCase();return"on"===t||"1"===t||"true"===t||"an"===t}_v(t){return this._config[t]??(xt[this._config.model??'type1']??{})[t]??_t[t]}_togglePlug(){const t=this._config.plug_entity;t&&this.hass&&this.hass.callWS({type:"call_service",domain:t.split(".")[0],service:"toggle",target:{entity_id:t}})}render(){if(!this._config||!this.hass)return I;const t=this._state("_ph"),e="—"!==t?parseFloat(t).toFixed(1).replace(".",","):"—",i=this._state("_redox"),s="—"!==i?Math.round(parseFloat(i)).toString():"—",o=this._state("_firmware_version"),r=this._isOn("_ph_pumpe"),n=this._isOn("_redox_pumpe"),a=this._flowActive,l=ft[this._v("pump_style")??"arrow"],c=this._config.plug_entity,h=!!c&&"on"===this.hass.states[c]?.state,p=this._v("water_speed")??100,d=this._v("pump_speed")??100,u=Math.max(.01,p/100),_=1.8/u,g=2.4/u,f=1.4/u,$=0===p||!a?"paused":"running",m=1/Math.max(.01,d/100),v="left"===(this._v("water_direction")??"right"),y=this._v("value_color")??"white",w=!1!==(this._v("value_box")??!0),b=!1!==(this._v("value_labels")??!0);return V`
+ */function ut(t){return dt({...t,state:!0,attribute:!1})}const _t={water_top:53,water_height:10,water_width:94,water_center:50,water_speed:100,pump_left_top:7,pump_right_top:7,pump_left_x:21,pump_right_x:15,pump_left_size:9,pump_right_size:9,pump_speed:100,value_bottom:4,value_ph_x:35,value_rx_x:30,value_scale:100,firmware_top:18,firmware_left:50,plug_top:12,plug_right:3},xt={type1:{water_top:51,water_height:11,water_width:47,water_center:49,water_speed:23,water_inactive:"gray",pump_left_size:5,pump_style:"fan",pump_left_x:28.5,pump_left_top:14,pump_right_size:5,pump_right_x:31,pump_right_top:14,pump_speed:20,firmware_top:11,firmware_box:false,firmware_color:"black",firmware_left:49,firmware_scale:88,plug_top:28,plug_right:15,value_box:false,value_labels:false,value_color:"black",value_scale:88,value_rx_x:44,value_ph_x:39,value_bottom:7},type2:{water_top:51,water_height:15,water_width:58,water_center:48,water_speed:23,water_inactive:"gray",pump_left_size:5,pump_style:"fan",pump_left_x:29.5,pump_left_top:13,pump_right_size:5,pump_right_x:54.5,pump_right_top:13,pump_speed:20,firmware_top:13,firmware_box:false,firmware_color:"black",firmware_left:59,firmware_scale:88,plug_top:28,plug_right:15,value_box:false,value_labels:false,value_color:"black",value_scale:88,value_rx_x:44,value_ph_x:39,value_bottom:7}},gt={type1:{transparent:"/api/tomtut_pool_dosing/static/dosier_v2_transparent.png",grey:"/api/tomtut_pool_dosing/static/dosier_v2.png",light:"/api/tomtut_pool_dosing/static/dosier_v1.png"},type2:{transparent:"/api/tomtut_pool_dosing/static/dosier_v4_transparent.png",grey:"/api/tomtut_pool_dosing/static/dosier_v4.png",light:"/api/tomtut_pool_dosing/static/dosier_v3.png"}},vt=e=>"dark"===e||"transparent"===e?"transparent":"grey"===e||"gray"===e?"grey":"light",ft={arrow:'<path d="M20,6 A14,14 0 1,1 8,14" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/><polygon points="5,8 11,14 3,16" fill="currentColor"/>',fan:'<circle cx="20" cy="20" r="3" fill="currentColor"/><path d="M20,17 Q20,6 12,6 Q4,6 6,14 Q8,17 20,17 Z" fill="currentColor" opacity="0.85"/><path d="M23,20 Q34,20 34,12 Q34,4 26,6 Q23,8 23,20 Z" fill="currentColor" opacity="0.85"/><path d="M20,23 Q20,34 28,34 Q36,34 34,26 Q32,23 20,23 Z" fill="currentColor" opacity="0.85"/><path d="M17,20 Q6,20 6,28 Q6,36 14,34 Q17,32 17,20 Z" fill="currentColor" opacity="0.85"/>',dots:'<circle cx="20" cy="8" r="3.5" fill="currentColor"/><circle cx="31" cy="14" r="3.5" fill="currentColor"/><circle cx="31" cy="26" r="3.5" fill="currentColor"/><circle cx="20" cy="32" r="3.5" fill="currentColor"/><circle cx="9" cy="26" r="3.5" fill="currentColor"/><circle cx="9" cy="14" r="3.5" fill="currentColor"/><circle cx="20" cy="20" r="4" fill="currentColor"/>'};let $t=class extends at{setConfig(t){const c={...t};if(c.device_name&&!c.entity_prefix){c.entity_prefix="sensor."+c.device_name.toLowerCase().replace(/\s+/g,"_")}if(!c.entity_prefix)throw new Error("device_name or entity_prefix is required");this._bildFehlt=!1,this._config={model:"type1",image_variant:"transparent",...c}}getCardSize(){return 6}_entity(t){return this.hass?.states[`${this._config.entity_prefix}${t}`]}_state(t){const s=this._entity(t)?.state;return s&&"unavailable"!==s&&"unknown"!==s?s:"—"}_binaryEntity(t){return this.hass?.states[`${this._config.entity_prefix.replace(/^sensor\./,"binary_sensor.")}${t}`]}_isOn(t){return"on"===this._binaryEntity(t)?.state}get _imagePath(){const t=this._config.model??"type1",e=this._bildFehlt?"grey":vt(this._config.image_variant??"transparent");return gt[t]?.[e]??gt.type1.transparent}_bildKonnteNichtLaden(){this._bildFehlt||(this._bildFehlt=!0,this.requestUpdate())}get _flowActive(){const t=this._state("_flow").toLowerCase();return"on"===t||"1"===t||"true"===t||"an"===t}_v(t){return this._config[t]??(xt[this._config.model??'type1']??{})[t]??_t[t]}_togglePlug(){const t=this._config.plug_entity;t&&this.hass&&this.hass.callWS({type:"call_service",domain:t.split(".")[0],service:"toggle",target:{entity_id:t}})}render(){if(!this._config||!this.hass)return I;const t=this._state("_ph"),e="—"!==t?parseFloat(t).toFixed(1).replace(".",","):"—",i=this._state("_redox"),s="—"!==i?Math.round(parseFloat(i)).toString():"—",o=this._state("_firmware_version"),r=this._isOn("_ph_pumpe"),n=this._isOn("_redox_pumpe"),a=this._flowActive,l=ft[this._v("pump_style")??"arrow"],c=this._config.plug_entity,h=!!c&&"on"===this.hass.states[c]?.state,p=this._v("water_speed")??100,d=this._v("pump_speed")??100,u=Math.max(.01,p/100),_=1.8/u,g=2.4/u,f=1.4/u,$=0===p||!a?"paused":"running",m=1/Math.max(.01,d/100),v="left"===(this._v("water_direction")??"right"),y=this._v("value_color")??"white",w=!1!==(this._v("value_box")??!0),b=!1!==(this._v("value_labels")??!0);return V`
       <ha-card>
         <div class="card-wrap">
-          <img class="bg" src="${this._imagePath}" alt="Dosieranlage" />
+          <img class="bg" src="${this._imagePath}" alt="Dosieranlage" @error="${this._bildKonnteNichtLaden}" />
 
           <!-- Firmware -->
           <div class="firmware-badge ${!1!==(this._v("firmware_box")??!0)?"":"no-bg"}"
@@ -92,16 +92,16 @@ const ct=t=>(e,i)=>{void 0!==i?i.addInitializer(()=>{customElements.define(t,e)}
           </div>
         </div>
       </ha-card>
-    `}static getConfigElement(){return document.createElement("tomtut-pool-dosing-card-editor")}static getStubConfig(){return{device_name:"Pool Dosieranlage",model:"type1",image_variant:"dark"}}};$t.styles=n`
+    `}static getConfigElement(){return document.createElement("tomtut-pool-dosing-card-editor")}static getStubConfig(){return{device_name:"Pool Dosieranlage",model:"type1",image_variant:"transparent"}}};$t.styles=n`
     :host { display: block; }
-    ha-card { overflow: hidden; padding: 0; background: transparent; }
+    ha-card { overflow: hidden; padding: 0; }
     .card-wrap { position: relative; width: 100%; line-height: 0; }
     .bg { width: 100%; height: auto; display: block; }
 
     /* Firmware */
     .firmware-badge {
       position: absolute; padding: 2px 8px;
-      background: rgba(0,0,0,0.6); border-radius: 4px;
+      background: var(--tomtut-pool-dosing-badge-background, rgba(0,0,0,0.6)); border-radius: 4px;
       font-size: 0.75em; font-weight: 700; color: #fff;
       letter-spacing: 1px; font-family: monospace;
       line-height: 1.3; pointer-events: none; white-space: nowrap;
@@ -113,18 +113,18 @@ const ct=t=>(e,i)=>{void 0!==i?i.addInitializer(()=>{customElements.define(t,e)}
     .water-zone.active { opacity: 1; }
     .water-svg { width: 200%; height: 100%; position: absolute; top: 0; left: 0; }
     .wave { fill: none; stroke-linecap: round; animation-name: waveScroll; animation-timing-function: linear; animation-iteration-count: infinite; }
-    .wave1 { stroke: rgba(0,180,255,0.7); stroke-width: 3.5; }
-    .wave2 { stroke: rgba(0,140,230,0.5); stroke-width: 2.5; animation-delay: -0.5s; }
-    .wave3 { stroke: rgba(100,200,255,0.4); stroke-width: 2; animation-delay: -1s; }
+    .wave1 { stroke: var(--tomtut-pool-dosing-wave-1-color, rgba(0,180,255,0.7)); stroke-width: 3.5; }
+    .wave2 { stroke: var(--tomtut-pool-dosing-wave-2-color, rgba(0,140,230,0.5)); stroke-width: 2.5; animation-delay: -0.5s; }
+    .wave3 { stroke: var(--tomtut-pool-dosing-wave-3-color, rgba(100,200,255,0.4)); stroke-width: 2; animation-delay: -1s; }
     .water-zone:not(.active):not(.inactive-gray) { opacity: 0; }
     .water-zone:not(.active).inactive-gray { opacity: 0.5; filter: grayscale(1); }
     .water-zone:not(.active) .wave { animation-play-state: paused; }
     @keyframes waveScroll { to { transform: translateX(-50%); } }
 
     /* Pumps */
-    .pump-arrow { position: absolute; aspect-ratio: 1; pointer-events: none; color: rgba(0,0,0,0.25); transition: color 0.3s; }
+    .pump-arrow { position: absolute; aspect-ratio: 1; pointer-events: none; color: var(--tomtut-pool-dosing-pump-idle-color, rgba(0,0,0,0.25)); transition: color 0.3s; }
     .pump-arrow svg { width: 100%; height: 100%; overflow: visible; }
-    .pump-arrow.spinning { color: rgba(0,0,0,0.9); filter: drop-shadow(0 0 3px rgba(0,0,0,0.2)); }
+    .pump-arrow.spinning { color: var(--tomtut-pool-dosing-pump-active-color, rgba(0,0,0,0.9)); filter: drop-shadow(0 0 3px rgba(0,0,0,0.2)); }
     .pump-arrow.spinning svg { animation: pumpSpin var(--pump-dur, 1s) linear infinite; }
     @keyframes pumpSpin { to { transform: rotate(360deg); } }
 
@@ -132,22 +132,22 @@ const ct=t=>(e,i)=>{void 0!==i?i.addInitializer(()=>{customElements.define(t,e)}
     .plug-badge {
       position: absolute; cursor: pointer; padding: 4px;
       border-radius: 50%; --mdc-icon-size: 24px;
-      transition: all 0.3s; line-height: 0; background: rgba(0,0,0,0.4);
+      transition: all 0.3s; line-height: 0; background: var(--tomtut-pool-dosing-plug-background, rgba(0,0,0,0.4));
     }
-    .plug-badge.on { color: #4caf50; box-shadow: 0 0 10px rgba(76,175,80,0.5); }
-    .plug-badge.off { color: #f44336; opacity: 0.7; }
+    .plug-badge.on { color: var(--tomtut-pool-dosing-plug-on-color, #4caf50); box-shadow: 0 0 10px rgba(76,175,80,0.5); }
+    .plug-badge.off { color: var(--tomtut-pool-dosing-plug-off-color, #f44336); opacity: 0.7; }
     .plug-badge:hover { transform: scale(1.15); }
 
     /* Values */
     .value-box {
       position: absolute; display: flex; flex-direction: column; align-items: center;
-      justify-content: center; background: rgba(0,0,0,0.75);
-      border: 1px solid rgba(255,255,255,0.15); border-radius: 10px;
+      justify-content: center; background: var(--tomtut-pool-dosing-value-background, rgba(0,0,0,0.75));
+      border: 1px solid var(--tomtut-pool-dosing-value-border-color, rgba(255,255,255,0.15)); border-radius: 10px;
       padding: 6px 16px; min-width: 75px; line-height: 1.2; backdrop-filter: blur(4px);
     }
     .value-box.no-bg { background: none; border: none; backdrop-filter: none; padding: 2px 6px; }
-    .val { font-size: 1.5em; font-weight: 700; color: var(--val-color, #fff); }
-    .unit { font-size: 0.85em; font-weight: 600; color: var(--val-color, #fff); opacity: 0.7; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+    .val { font-size: 1.5em; font-weight: 700; color: var(--val-color, var(--tomtut-pool-dosing-value-color, #fff)); }
+    .unit { font-size: 0.85em; font-weight: 600; color: var(--val-color, var(--tomtut-pool-dosing-value-color, #fff)); opacity: 0.7; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
   `,t([dt({attribute:!1})],$t.prototype,"hass",void 0),t([ut()],$t.prototype,"_config",void 0),$t=t([ct("tomtut-pool-dosing-card")],$t);let mt=class extends at{setConfig(t){this._config={...t};if(!this._config.device_name&&this._config.entity_prefix){this._config.device_name=this._config.entity_prefix.replace(/^sensor\./,"").replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase())}}_ev(t){const p=xt[this._config.model??'type1']??{};return this._config[t]??p[t]??_t[t]}_changed(t){const e=t.target,i=e.dataset.key;let s;if(s="range"===e.type?parseFloat(e.value):"checkbox"===e.type?e.checked:e.value,"device_name"===i){this._config={...this._config,device_name:s,entity_prefix:"sensor."+s.toLowerCase().replace(/\s+/g,"_")},this.dispatchEvent(new CustomEvent("config-changed",{detail:{config:this._config}}));return}if("model"===i){const p=xt[s]??{},keep={type:this._config.type,device_name:this._config.device_name,entity_prefix:this._config.entity_prefix,model:s,image_variant:this._config.image_variant,plug_entity:this._config.plug_entity,firmware_text:this._config.firmware_text};this._config={...keep,...p},this.dispatchEvent(new CustomEvent("config-changed",{detail:{config:this._config}}));return}this._config={...this._config,[i]:s},this.dispatchEvent(new CustomEvent("config-changed",{detail:{config:this._config}}))}_slider(t,e,i,s,o="%",r=1){const n=this._ev(e)??100;return V`
       <div class="slider-row">
         <span class="slider-label">${t}</span>
@@ -183,8 +183,9 @@ const ct=t=>(e,i)=>{void 0!==i?i.addInitializer(()=>{customElements.define(t,e)}
         </label>
         <label>Bildvariante
           <select data-key="image_variant" @change="${this._changed}">
-            <option value="dark" ?selected="${"dark"===this._config.image_variant}">Transparent</option>
-            <option value="light" ?selected="${"light"===this._config.image_variant}">Weiß</option>
+            <option value="transparent" ?selected="${"transparent"===vt(this._config.image_variant??"transparent")}">Transparent (Theme scheint durch)</option>
+            <option value="grey" ?selected="${"grey"===vt(this._config.image_variant??"transparent")}">Grau</option>
+            <option value="light" ?selected="${"light"===vt(this._config.image_variant??"transparent")}">Weiß</option>
           </select>
         </label>
         <label>Pumpen-Symbol
