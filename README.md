@@ -23,7 +23,8 @@ Custom Lovelace Dashboard Card fuer die **[TomTuT Pool Dosing Integration](https
 - **Firmware-Anzeige / Freitextfeld** — Zeigt die Firmware-Version oder einen eigenen Text an
 - **Smarte Steckdose** — Optionales Ein/Aus-Icon fuer eine verknuepfte Steckdose direkt in der Card
 - **Zwei Anlagentypen** — Vordefinierte Layouts fuer Typ 1 und Typ 2 (Beniferro Gen2)
-- **Zwei Bildvarianten** — Transparent (dunkel) oder weisser Hintergrund
+- **Drei Bildvarianten** — wirklich transparent (das Dashboard-Theme scheint durch), grau oder weiss
+- **Theme-tauglich** — die Karte malt ihre Flaeche nicht selbst; `--ha-card-background`, `--ha-card-backdrop-filter` und `--ha-card-box-shadow` aus deinem Theme greifen (Glas-Themes inklusive)
 - **Visueller Editor** — Kompletter GUI-Editor mit Live-Vorschau, keine YAML-Kenntnisse noetig
 - **Vollstaendig anpassbar** — Positionen, Groessen und Farben aller Elemente individuell einstellbar
 
@@ -33,9 +34,9 @@ Custom Lovelace Dashboard Card fuer die **[TomTuT Pool Dosing Integration](https
 
 - Home Assistant **2024.1.0** oder neuer
 - [HACS](https://hacs.xyz/) installiert
-- **[TomTuT Pool Dosing Integration](https://github.com/TomTuTHub/tomtut-pool-dosing)** installiert und konfiguriert
+- **[TomTuT Pool Dosing Integration](https://github.com/TomTuTHub/tomtut-pool-dosing)** installiert und konfiguriert — fuer die transparente Bildvariante **v1.9.7 oder neuer**
 
-> **Wichtig:** Die Integration muss **zuerst** installiert sein — sie stellt die Sensoren bereit, die diese Card anzeigt.
+> **Wichtig:** Die Integration muss **zuerst** installiert sein — sie stellt die Sensoren bereit, die diese Card anzeigt. Sie liefert auch die Anlagen-Grafiken aus; ist sie noch aelter als v1.9.7, faellt die Card automatisch auf die graue Variante zurueck.
 
 ---
 
@@ -70,7 +71,7 @@ Die Card im Dashboard-Editor hinzufuegen: **Karte hinzufuegen** → **TomTuT Poo
 |---|---|---|
 | `entity_prefix` | Ja | Entity-Praefix deiner Dosieranlage |
 | `model` | Nein | Anlagentyp: `type1` (Standard) oder `type2` |
-| `image_variant` | Nein | Bildvariante: `dark` (Transparent) oder `light` (Weiss) |
+| `image_variant` | Nein | Bildvariante: `transparent` (Standard), `grey` (grauer Kasten) oder `light` (weiss). Der alte Wert `dark` gilt weiterhin und bedeutet `transparent` |
 | `plug_entity` | Nein | Entity-ID einer smarten Steckdose (z.B. `switch.dosieranlage`) |
 
 ### Entity-Praefix ermitteln
@@ -85,7 +86,7 @@ Beispiel: Heisst deine Anlage *Meine Pool Dosieranlage*, dann ist der Praefix: `
 type: custom:tomtut-pool-dosing-card
 entity_prefix: sensor.tomtut_pool_dosieranlage
 model: type1
-image_variant: dark
+image_variant: transparent
 plug_entity: switch.dosieranlage
 ```
 
@@ -98,6 +99,40 @@ Im visuellen Editor unter **Erweiterte Einstellungen** koennen alle Positionen, 
 - **Firmware/Freitext** — Position, Groesse, Farbe, Hintergrund-Box
 - **Messwerte** — Position, Groesse, Farbe, Labels, Hintergrund-Box
 - **Steckdose** — Position
+
+---
+
+## Themes und eigene Farben
+
+Die Card malt ihre Flaeche **nicht** selbst: die Kartenflaeche gehoert dem Theme. Damit greifen
+`--ha-card-background`, `--ha-card-backdrop-filter`, `--ha-card-box-shadow`, `--ha-card-border-color`
+und `--ha-card-border-radius` genauso wie bei den eingebauten Karten — mit der Bildvariante
+**Transparent** schlaegt also auch ein Glas-/Blur-Theme durch.
+
+Die Elemente **auf** der Grafik (Messwert-Kaesten, Firmware-Kasten, Steckdose, Wellen, Pumpen) behalten
+ihre eigenen Farben, weil sie auf dem Bild liegen und nicht auf der Kartenflaeche — die HA-Textfarben
+waeren dort je nach Theme unlesbar. Wer sie trotzdem anpassen will, setzt im Theme diese Variablen:
+
+| Variable | Standard | Wirkung |
+|---|---|---|
+| `--tomtut-pool-dosing-value-background` | `rgba(0,0,0,0.75)` | Hintergrund der Messwert-Kaesten |
+| `--tomtut-pool-dosing-value-border-color` | `rgba(255,255,255,0.15)` | Rahmen der Messwert-Kaesten |
+| `--tomtut-pool-dosing-value-color` | `#fff` | Schrift der Messwerte (die Editor-Option „Farbe" hat Vorrang) |
+| `--tomtut-pool-dosing-badge-background` | `rgba(0,0,0,0.6)` | Hintergrund des Firmware-/Freitextfelds |
+| `--tomtut-pool-dosing-plug-background` | `rgba(0,0,0,0.4)` | Hintergrund des Steckdosen-Knopfs |
+| `--tomtut-pool-dosing-plug-on-color` | `#4caf50` | Steckdose an |
+| `--tomtut-pool-dosing-plug-off-color` | `#f44336` | Steckdose aus |
+| `--tomtut-pool-dosing-wave-1-color` … `-3-` | Blautoene | die drei Wellenlinien |
+| `--tomtut-pool-dosing-pump-idle-color` | `rgba(0,0,0,0.25)` | Pumpensymbol, Pumpe steht |
+| `--tomtut-pool-dosing-pump-active-color` | `rgba(0,0,0,0.9)` | Pumpensymbol, Pumpe laeuft |
+
+Beispiel im Theme:
+
+```yaml
+mein_theme:
+  tomtut-pool-dosing-value-background: "rgba(255,255,255,0.18)"
+  tomtut-pool-dosing-value-color: "#fff"
+```
 
 ---
 
